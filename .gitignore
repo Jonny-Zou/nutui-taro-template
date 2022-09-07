@@ -1,0 +1,14 @@
+dist/
+deploy_versions/
+.temp/
+.rn_temp/
+node_modules/
+.DS_Store
+deploy-config.back.js
+deploy-out
+keys
+deploy-config.js
+pnpm-global
+.history
+.idea
+report.html
