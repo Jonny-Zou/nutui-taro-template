@@ -1,6 +1,6 @@
 import { createApp } from 'vue'
-import { ImagePreview, OverLay, Popup, Swiper, SwiperItem, Cell, Icon } from '@nutui/nutui-taro';
-
+import { ImagePreview, OverLay, Popup, Swiper, SwiperItem, Cell, Icon, Input, Button, Tabbar, TabbarItem } from '@nutui/nutui-taro';
+import Common from './components/Common.vue'
 import './app.scss'
 
 const App = createApp({
@@ -15,5 +15,11 @@ App.use(ImagePreview)
   .use(SwiperItem)
   .use(Cell)
   .use(Icon)
+  .use(Input)
+  .use(Button)
+  .use(Tabbar)
+  .use(TabbarItem)
+
+App.component('Common', Common)
 
 export default App

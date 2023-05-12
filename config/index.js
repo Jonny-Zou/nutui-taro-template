@@ -1,3 +1,6 @@
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const path = require('path')
+
 const config = {
   projectName: 'taro-nutui-example',
   date: '2022-9-7',
@@ -27,6 +30,9 @@ const config = {
   sass:{
     data: `@import "@nutui/nutui-taro/dist/styles/variables.scss";`
   },
+  terser: {
+    enable: false
+  },
   mini: {
     postcss: {
       pxtransform: {
@@ -48,6 +54,45 @@ const config = {
           generateScopedName: '[name]__[local]___[hash:base64:5]'
         }
       }
+    },
+    // addChunkPages(pages, pageNames) {
+    //   for (const page of pageNames) {
+    //     pages.set(page, ['pages/tabbar-cart'])
+    //   }
+    // },
+    webpackChain(chain) {
+      chain.merge({
+        externals: [
+          (context, request, callback) => {
+            const externalDirs = ['@/configs']
+            const externalDir = externalDirs.find(dir => request.startsWith(dir))
+
+            if (process.env.NODE_ENV === 'production' && externalDir) {
+              const externalDirPath = config.alias[externalDir]
+              const res = request.replace('@/configs', externalDirPath)
+
+              return callback(null, `commonjs ${res}`)
+            }
+
+            callback()
+          },
+        ]
+      })
+      // 压缩混淆
+      // chain.plugin('BundleAnalyzerPlugin').use(BundleAnalyzerPlugin)
+      // chain.merge({
+      //   optimization: {
+      //     splitChunks: {
+      //       cacheGroups: {
+      //         tabbar: {
+      //           test: /[\\/]subpkg-1[\\/]cart[\\/].*?.(vue|js|ts)$/,
+      //           name: 'pages/tabbar-cart',
+      //           priority: 100
+      //         }
+      //       }
+      //     }
+      //   }
+      // })
     }
   },
   h5: {
